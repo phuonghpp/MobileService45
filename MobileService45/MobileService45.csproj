@@ -85,6 +85,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.2.1100\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\app\client\Unknow\product\12.1.0\client_1\odp.net\managed\common\EF6\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
@@ -265,6 +269,7 @@
     </Content>
     <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Properties\PublishProfiles\ComboProjectReference20170526084709.pubxml" />
+    <None Include="Properties\PublishProfiles\Lan.pubxml" />
     <None Include="Properties\PublishProfiles\MobileOracle - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\MobileOracle - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MobileOracleDB - FTP.pubxml" />
