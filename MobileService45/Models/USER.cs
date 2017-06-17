@@ -44,8 +44,7 @@
 
         [StringLength(10)]
         public string MADV { get; set; }
-
-        OracleMobileDB db = new OracleMobileDB();
+        
 
         
         public USER()
