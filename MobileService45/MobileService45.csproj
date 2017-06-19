@@ -212,7 +212,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountMobileController.cs" />
+    <Compile Include="Controllers\DelPassController.cs" />
+    <Compile Include="Controllers\DongBoSLController.cs" />
     <Compile Include="Controllers\DSUpLoadController.cs" />
+    <Compile Include="Controllers\FunctionDbController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\Datacs.cs" />

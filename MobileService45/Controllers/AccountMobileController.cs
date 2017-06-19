@@ -71,7 +71,7 @@ namespace MobileService45.Controllers
 
 
             var user = db.USERS.Where(x => x.MOBILE == _Mobile).Count();
-
+            db.Dispose();
             if (user == 0) return true;
             else return false;
 
@@ -81,7 +81,7 @@ namespace MobileService45.Controllers
             try
             {
                 var user = db.USERS.Where(x => x.MOBILE == _Mobile).First();
-
+                db.Dispose();
                 return Task.FromResult<USER>(user);
             }
             catch
@@ -94,6 +94,7 @@ namespace MobileService45.Controllers
             try
             {
                 var user = db.USERS.Where(x => x.MOBILE == _Mobile & x.PASSWORD == _Password).FirstOrDefault();
+                db.Dispose();
                 return Task.FromResult<USER>(user);
             }
             catch
@@ -129,6 +130,7 @@ namespace MobileService45.Controllers
             {
                 db.USERS.Add(User);
                 db.SaveChanges();
+                db.Dispose();
             }
             catch (Exception ex)
             {

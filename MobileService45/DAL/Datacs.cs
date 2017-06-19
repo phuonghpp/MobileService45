@@ -5,6 +5,8 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
+using MobileService45.Models;
+
 
 namespace MobileService45.DAL
 {
@@ -13,6 +15,23 @@ namespace MobileService45.DAL
         private static string strSql = ConfigurationManager.ConnectionStrings["OracleMobileDB"].ToString();
         private const string packageName = "GIAOTIEPTB.DONGBOSL.";
         //private const string packageName = "GIAOTIEP.GIAOTIEP_GPON.";
+        public static bool IsValidMobile(string Mobile, string Password)
+        {
+            var user = new List<USER>();
+            OracleMobileDB db = new OracleMobileDB();
+            try
+            {
+                 user = db.USERS.Where(x => x.MOBILE == Mobile & x.PASSWORD == Password).ToList();
+                 db.Dispose();
+            }
+            catch
+            {
+                return false;
+            }
+            if (user.Count != 0) return true;
+            return false;
+
+        }
         public static DataTable GetData(string storedProcedureName, List<OracleParameter> parameters)
         {
             OracleConnection oConn = default(OracleConnection);
