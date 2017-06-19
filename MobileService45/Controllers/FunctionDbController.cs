@@ -103,6 +103,100 @@ namespace MobileService45.Controllers
             }
             return Ok(Result);
         }
+        [Route("UPDATE_DM_DSLAM")]
+        [HttpGet]
+        public async Task<IHttpActionResult> UpdateDmDslam(string Mobile, string Password,int SIDDSLAM,string SIP,int SVLAN_HSI,int SVLAN_MYTV,int SVLAN_LSTV,string SUSER,string SPASS  )
+        {
+            if (!Datacs.IsValidMobile(Mobile, Password)) return Unauthorized();
+
+            List<OracleParameter> param = new List<OracleParameter>();
+            OracleParameter p1 = new OracleParameter("SIDDSLAM", OracleDbType.Int32);
+            OracleParameter p2 = new OracleParameter("SIP", OracleDbType.Varchar2);
+            OracleParameter p3 = new OracleParameter("SVLAN_HSI", OracleDbType.Int32);
+            OracleParameter p4 = new OracleParameter("SVLAN_MYTV", OracleDbType.Int32);
+            OracleParameter p5 = new OracleParameter("SVLAN_LSTV", OracleDbType.Int32);
+            OracleParameter p6 = new OracleParameter("SUSER", OracleDbType.Varchar2);
+            OracleParameter p7 = new OracleParameter("SPASS", OracleDbType.Varchar2);
+            p1.Value = SIDDSLAM;
+            p2.Value = SIP;
+            p3.Value = SVLAN_HSI;
+            p4.Value = SVLAN_MYTV;
+            p5.Value = SVLAN_LSTV;
+            p6.Value = SUSER;
+            p7.Value = SPASS;
+            param.Add(p1);
+            param.Add(p2);
+            param.Add(p3);
+            param.Add(p4);
+            param.Add(p5);
+            param.Add(p6);
+            param.Add(p7);
+
+            var Result = Datacs.GetData("FUNCTION_DB.", "UPDATE_DM_DSLAM", param);
+
+            if (Result == null)
+            {
+                return BadRequest();
+            }
+            return Ok(Result);
+        }
+        [Route("UPDATE_PROFILE")]
+        [HttpGet]
+        public  async Task<IHttpActionResult> UpdateProfile(string Mobile,string Password,int SIDDT)
+        {
+            if (!Datacs.IsValidMobile(Mobile, Password)) return Unauthorized();
+
+            List<OracleParameter> param = new List<OracleParameter>();
+            OracleParameter p1 = new OracleParameter("SIDDT", OracleDbType.Int32);
+            p1.Value = SIDDT;
+            param.Add(p1);
+
+            var Result = Datacs.GetData("FUNCTION_DB.", "UPDATE_PROFILE", param);
+            if (Result == null)
+            {
+                return BadRequest();
+            }
+            return Ok(Result);
+        }
+        [HttpGet]
+        [Route("UPDATE_TO_CSSVUNG")]
+        public async Task<IHttpActionResult> UpdateToCssVung(string Mobile,string Password, string SMAKH)
+        {
+            if (!Datacs.IsValidMobile(Mobile, Password)) return Unauthorized();
+
+            List<OracleParameter> param = new List<OracleParameter>();
+            OracleParameter p1 = new OracleParameter("SMAKH", OracleDbType.Varchar2);
+            p1.Value = SMAKH;
+            param.Add(p1);
+
+            var Result = Datacs.GetData("FUNCTION_DB.", "UPDATE_TO_CSSVUNG",param);
+            if (Result == null)
+            {
+                return BadRequest();
+            }
+            return Ok(Result);
+
+        }
+        [Route("UPDATE_TDDSLAM")]
+        [HttpGet]
+        public async Task<IHttpActionResult> UpdateTDDSLam(string Mobile,string Password,int SIDDT)
+        {
+            if (!Datacs.IsValidMobile(Mobile, Password)) return Unauthorized();
+
+            List<OracleParameter> param = new List<OracleParameter>();
+            OracleParameter p1 = new OracleParameter("SIDDT", OracleDbType.Int32);
+            p1.Value = SIDDT;
+            param.Add(p1);
+
+            var Result = Datacs.GetData("FUNCTION_DB.", "UPDATE_TTDSLAM",param);
+            if (Result == null)
+            {
+                return BadRequest();
+            }
+            return Ok(Result);
+
+        }
+
 
     }
 }

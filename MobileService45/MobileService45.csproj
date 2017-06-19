@@ -216,6 +216,7 @@
     <Compile Include="Controllers\DongBoSLController.cs" />
     <Compile Include="Controllers\DSUpLoadController.cs" />
     <Compile Include="Controllers\FunctionDbController.cs" />
+    <Compile Include="Controllers\GiaoTiepController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\Datacs.cs" />
