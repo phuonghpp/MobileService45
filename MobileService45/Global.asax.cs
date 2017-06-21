@@ -8,6 +8,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Oracle.ManagedDataAccess.Client;
+using MobileService45.Models;
+using System.Data.Entity;
 
 namespace MobileService45
 {
@@ -21,6 +24,8 @@ namespace MobileService45
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            // fix multi active result set
+            // Database.SetInitializer<OracleMobileDB>(null);
             // Manually update database of deploy on start with Entity Framework 
             // uncommend to migration db
             // don't touch without permit

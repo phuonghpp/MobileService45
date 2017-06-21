@@ -17,7 +17,7 @@ namespace MobileService45.ViewModels
     {
         [Required]
         [StringLength(50,ErrorMessage ="Tên đăng nhập giới hạn 50 ký tự ")]
-        public string UserName { get; set; }
+        public string FullName { get; set; }
         [Required]
         [StringLength(20)]
         [DataType(DataType.PhoneNumber, ErrorMessage = "Cần điền đúng định dạng của điện thoại")]

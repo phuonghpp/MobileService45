@@ -10,8 +10,11 @@ namespace MobileService45.Models
         public OracleMobileDB()
             : base("OracleMobileDB")
         {
+
         }
-        
+        //static OracleMobileDB()
+        //{
+        //}
 
         public virtual DbSet<LOG> LOGS { get; set; }
         public virtual DbSet<USER_GROUP> USER_GROUP { get; set; }

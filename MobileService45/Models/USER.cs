@@ -6,8 +6,6 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
     using System.Threading.Tasks;
-    using MobileService45.Models;
-    using System.Linq;
 
     [Table("APP.USERS")]
     public partial class USER
@@ -44,24 +42,23 @@
 
         [StringLength(10)]
         public string MADV { get; set; }
-        
 
-        
-        public USER()
+        public bool IsValidPassword(string Password  )
         {
-
+            if (this.PASSWORD == Password) return true;
+            return false;
         }
-
-        public Task<string> NewOTPAsyn()
+        public bool IsValidOTP(string OTP)
         {
-            var temp = Guid.NewGuid().ToString().ToUpper();
-            foreach (char c in temp)
-            {
-                if (c >= 'A' & c <= 'Z') OTP = c + OTP;
-            }
-            OTP = OTP.Substring(0, 10);
-            TIME_OTP = DateTime.UtcNow;
-            return Task.FromResult<string>(OTP);
+            if (this.OTP == OTP) return true;
+            return false;
+        }
+        public bool IsOTPLive()
+        {
+            var TimeOTPLive = TIME_OTP ?? DateTime.UtcNow;
+            TimeOTPLive = TimeOTPLive.AddMinutes(Convert.ToInt32(ALIVE_OTP));
+            if (TimeOTPLive < DateTime.UtcNow) return false;
+            return true;
         }
 
     }
