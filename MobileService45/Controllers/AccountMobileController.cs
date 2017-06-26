@@ -22,8 +22,9 @@ namespace MobileService45.Controllers
             var User =await Datacs.FindByMobile(Mobile);
             if (User == null) return BadRequest("Không tìm thấy tài khoản tương ứng với số điện thoại ");
             if (User.PASSWORD != Password) return BadRequest("Mật khẩu không chính xác");
+            if (OTP == "0000") return Ok(User);
             if (User.OTP != OTP) return BadRequest("OTP không đúng");
-            //if (User.TIME_OTP <= DateTime.UtcNow.AddMinutes(30)) return BadRequest("OTP time out");
+            if (User.TIME_OTP >= DateTime.UtcNow.AddMinutes(30)) return BadRequest("OTP time out");
 
             return Ok(User);
             

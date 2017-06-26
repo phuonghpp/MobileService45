@@ -48,12 +48,12 @@ namespace MobileService45.Controllers
         }
         [Route("GET_DICHVU_BY_ACCOUNT")]
         [HttpGet]
-        public async Task<IHttpActionResult> GetDichVuByAccount(string Mobile, string Password,string OTP, string P_Account)
+        public async Task<IHttpActionResult> GetDichVuByAccount(string Mobile, string Password,string OTP, string Account)
         {
             if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("P_ACCOUNT", OracleDbType.Varchar2);
-            p1.Value = P_Account;
+            p1.Value = Account;
             param.Add(p1);
             var result = Datacs.GetData("DONGBOSL.", "GET_DICHVU_BY_ACCOUNT", param);
             if (result == null)
@@ -99,12 +99,12 @@ namespace MobileService45.Controllers
         }
         [Route("LIST_TBDC_KH")]
         [HttpGet]
-        public async Task<IHttpActionResult> ListTBDCKH(string Mobile, string Password,string OTP, string SDevice)
+        public async Task<IHttpActionResult> ListTBDCKH(string Mobile, string Password,string OTP)
         {
             if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SDEVICE", OracleDbType.Varchar2);
-            p1.Value = SDevice;
+            p1.Value = "1";
             param.Add(p1);
             var result = Datacs.GetData("DONGBOSL.", "LIST_TBDC_KH", param);
             if (result == null)
@@ -115,14 +115,14 @@ namespace MobileService45.Controllers
         }
         [Route("LIST_TBYC_UPLOAD")]
         [HttpGet]
-        public async Task<IHttpActionResult> ListTBYCUpload(string Mobile, string Password,string OTP, string Smatt, string Stt_Dslam)
+        public async Task<IHttpActionResult> ListTBYCUpload(string Mobile, string Password,string OTP, string MA_TTOAN, string ID_PORT)
         {
             if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SMATT", OracleDbType.Varchar2);
             OracleParameter p2 = new OracleParameter("STT_DSLAM", OracleDbType.Varchar2);
-            p1.Value = Smatt;
-            p2.Value = Stt_Dslam;
+            p1.Value = MA_TTOAN;
+            p2.Value = ID_PORT;
             param.Add(p1);
             param.Add(p2);
             var result = Datacs.GetData("DONGBOSL.", "LIST_TBYC_UPLOAD", param);

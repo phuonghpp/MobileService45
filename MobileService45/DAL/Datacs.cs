@@ -61,9 +61,12 @@ namespace MobileService45.DAL
         }
         public static async Task<bool> IsValidMobile(string Mobile,string Password,string OTP)
         {
-                var User = await FindByMobile(Mobile);
-            if (User != null & User.IsValidPassword(Password) & OTP == "0000") return true;
-            if (User!=null&User.IsOTPLive() & User.IsValidOTP(OTP) & User.IsValidPassword(Password)) return true;
+            USER User=null;
+            
+                User = await FindByMobile(Mobile);
+            if (User == null) return false;
+            if ( User.IsValidPassword(Password) & OTP == "0000") return true;
+            if (User.IsOTPLive() & User.IsValidOTP(OTP) & User.IsValidPassword(Password)) return true;
                 
             
             return false;
