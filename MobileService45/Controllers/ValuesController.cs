@@ -17,11 +17,16 @@ namespace MobileService45.Controllers
     {
         OracleMobileDB db = new OracleMobileDB();
         // GET api/values
-        public string Get()
+        public async Task<IHttpActionResult> Get()
         {
-            var user = db.USERS.FirstOrDefault();
-            db.Dispose();
-            return user.FULLNAME;
+            //var user = db.USERS.FirstOrDefault();
+            //db.Dispose();
+            //return user.FULLNAME;
+            var client = new HttpClient();
+            var response = await client.GetAsync("http://localhost:4555/GetAccountMyTVList/0000");
+            int i = 1;
+            return Ok(response.Content);
+
         }
 
         [HttpPost]

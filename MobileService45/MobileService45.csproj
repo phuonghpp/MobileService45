@@ -214,6 +214,7 @@
     <Compile Include="Controllers\AccountMobileController.cs" />
     <Compile Include="Controllers\DelPassController.cs" />
     <Compile Include="Controllers\DelPassVersion1Controller.cs" />
+    <Compile Include="Controllers\DoKiemVersion1Controller.cs" />
     <Compile Include="Controllers\DongBoSLController.cs" />
     <Compile Include="Controllers\DongBoSLVersion1Controller.cs" />
     <Compile Include="Controllers\DSUpLoadController.cs" />
@@ -245,6 +246,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AccountMobileViewModel.cs" />
+    <Compile Include="ViewModels\DoKiemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

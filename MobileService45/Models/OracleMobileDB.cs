@@ -10,7 +10,8 @@ namespace MobileService45.Models
         public OracleMobileDB()
             : base("OracleMobileDB")
         {
-
+            //turn off lazy loading because not support MARS
+            this.Configuration.LazyLoadingEnabled = false;
         }
         //static OracleMobileDB()
         //{

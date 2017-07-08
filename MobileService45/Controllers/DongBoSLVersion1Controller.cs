@@ -18,10 +18,8 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> AddDelPass(string Mobile, string Password,string OTP, string P_NhanVien, string P_Account, Int64 P_Slot, Int64 P_Port, Int64 P_Vpi)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP))
-            {
-                return Unauthorized();
-            }
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("P_NHANVIEN", OracleDbType.Varchar2);
             p1.Value = P_NhanVien;
@@ -42,7 +40,7 @@ namespace MobileService45.Controllers
             var result = Datacs.GetData("DONGBOSL.", "ADD_DEL_PASS", param);
             if (result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(result);
         }
@@ -50,7 +48,8 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetDichVuByAccount(string Mobile, string Password,string OTP, string Account)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("P_ACCOUNT", OracleDbType.Varchar2);
             p1.Value = Account;
@@ -58,7 +57,7 @@ namespace MobileService45.Controllers
             var result = Datacs.GetData("DONGBOSL.", "GET_DICHVU_BY_ACCOUNT", param);
             if (result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(result);
         }
@@ -66,7 +65,8 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetDSKH(string Mobile, string Password,string OTP, string Smadv, string skey)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SMADV", OracleDbType.Varchar2);
             OracleParameter p2 = new OracleParameter("SKEY", OracleDbType.Varchar2);
@@ -77,15 +77,16 @@ namespace MobileService45.Controllers
             var result = Datacs.GetData("DONGBOSL.", "GET_DSKH", param);
             if (result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(result);
         }
         [Route("GET_LOG_BY_ACCOUNT")]
         [HttpGet]
-        public async Task<IHttpActionResult> GetLogByAccount(string mobile, string password,string OTP, string P_Account)
+        public async Task<IHttpActionResult> GetLogByAccount(string Mobile, string Password,string OTP, string P_Account)
         {
-            if (!await Datacs.IsValidMobile(mobile, password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("P_ACCOUNT", OracleDbType.Varchar2);
             p1.Value = P_Account;
@@ -93,7 +94,7 @@ namespace MobileService45.Controllers
             var result = Datacs.GetData("DONGBOSL.", "GET_LOG_BY_ACCOUNT", param);
             if (result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(result);
         }
@@ -101,7 +102,8 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> ListTBDCKH(string Mobile, string Password,string OTP)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SDEVICE", OracleDbType.Varchar2);
             p1.Value = "1";
@@ -109,7 +111,7 @@ namespace MobileService45.Controllers
             var result = Datacs.GetData("DONGBOSL.", "LIST_TBDC_KH", param);
             if (result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(result);
         }
@@ -117,7 +119,8 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> ListTBYCUpload(string Mobile, string Password,string OTP, string MA_TTOAN, string ID_PORT)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SMATT", OracleDbType.Varchar2);
             OracleParameter p2 = new OracleParameter("STT_DSLAM", OracleDbType.Varchar2);
@@ -128,7 +131,7 @@ namespace MobileService45.Controllers
             var result = Datacs.GetData("DONGBOSL.", "LIST_TBYC_UPLOAD", param);
             if (result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(result);
 
@@ -137,7 +140,8 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> ListYCXNUpload(string Mobile, string Password,string OTP)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
             var user =await Datacs.FindByMobile(Mobile);
 
             List<OracleParameter> param = new List<OracleParameter>();
@@ -147,7 +151,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("DONGBOSL.", "LIST_YCXN_UPLOAD", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
         }
@@ -155,8 +159,11 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> XNUpload(string Mobile, string Password,string OTP, string Lsacc, string Lsp_Onu, string Smatt, string Spass_Onu, string Sonu_Id, string SNV, string Stb_Dcoui)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
+
             List<OracleParameter> param = new List<OracleParameter>();
+
             OracleParameter p1 = new OracleParameter("LSACC", OracleDbType.Varchar2);
             OracleParameter p2 = new OracleParameter("LSP_ONU", OracleDbType.Varchar2);
             OracleParameter p3 = new OracleParameter("SMATT", OracleDbType.Varchar2);
@@ -181,7 +188,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("DONGBOSL.", "XN_UPLOAD", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
         }

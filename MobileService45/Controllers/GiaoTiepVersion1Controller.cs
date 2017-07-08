@@ -15,10 +15,11 @@ namespace MobileService45.Controllers
     public class GiaoTiepVersion1Controller : ApiController
     {
         [HttpGet]
-        [Route("LOAD_KS_BD")]
+        [Route("LOAD_KH_BD")]
         public async Task<IHttpActionResult> LoadKHBD(string Mobile, string Password,string OTP, string SMADV, string SACC)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return  Content(HttpStatusCode.BadRequest, CheckMobile);
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SMADV", OracleDbType.Varchar2);
@@ -31,15 +32,23 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("GIAOTIEP.", "LOAD_KH_BD", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
         }
+        //[HttpGet]
+        //[Route("TestSelfBuild")]
+        //public IHttpActionResult get()
+        //{
+        //    return Content(HttpStatusCode.BadRequest, "Any object");
+        //}
         [HttpGet]
         [Route("LOAD_MUC_PROFILE")]
         public async Task<IHttpActionResult> LoadMucProfile(string Mobile, string Password,string OTP, string SPROFILE, string SIDTB)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return  Content(HttpStatusCode.BadRequest, CheckMobile);
+
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SPROFILE", OracleDbType.Varchar2);
@@ -52,7 +61,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("GIAOTIEP.", "LOAD_MUC_PROFILE", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
 
@@ -61,7 +70,8 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> XNBDCapDong(string Mobile, string Password,string OTP, int SLBD, int SIDTB, string SIDDT, string SPROFILE)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SLBD", OracleDbType.Int32);
@@ -77,7 +87,7 @@ namespace MobileService45.Controllers
 
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
 

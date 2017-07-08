@@ -18,7 +18,9 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> BDSTB(string Mobile, string Password,string OTP    , int NO)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return  Content(HttpStatusCode.BadRequest, CheckMobile);
+
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("NO", OracleDbType.Int32);
             p1.Value = NO;
@@ -27,7 +29,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("FUNCTION_DB.", "BD_STB", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
 
             }
             return Ok(Result);
@@ -36,7 +38,9 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetDMDSLAM(string Mobile, string Password,string OTP, string SSYSNAME)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
+
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SSYSNAME", OracleDbType.Varchar2);
             p1.Value = SSYSNAME;
@@ -45,7 +49,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("FUNCTION_DB.", "GET_DM_DSLAM", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
         }
@@ -53,7 +57,9 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> InsertHuyDv(string Mobile, string Password,string OTP, string SACC)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
+
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SACC", OracleDbType.Varchar2);
@@ -63,7 +69,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("FUNCTION_DB.", "INSERT_HUY_DV", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
         }
@@ -71,7 +77,9 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> InsertHuyPort(string Mobile, string Password,string OTP, string SACC)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
+
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SACC", OracleDbType.Varchar2);
@@ -81,7 +89,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("FUNCTION_DB.", "INSERT_HUY_PORT", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
         }
@@ -89,7 +97,9 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> UpdateCSSVung(string Mobile, string Password,string OTP, string MADK)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
+
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("MADK", OracleDbType.Varchar2);
@@ -99,7 +109,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("FUNCTION_DB.", "UPDATE_CSSVUNG", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
         }
@@ -107,7 +117,9 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> UpdateDmDslam(string Mobile, string Password,string OTP, int SIDDSLAM, string SIP, int SVLAN_HSI, int SVLAN_MYTV, int SVLAN_LSTV, string SUSER, string SPASS)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
+
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SIDDSLAM", OracleDbType.Int32);
@@ -136,7 +148,7 @@ namespace MobileService45.Controllers
 
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
         }
@@ -144,7 +156,9 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> UpdateProfile(string Mobile, string Password,string OTP, int SIDDT)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
+
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SIDDT", OracleDbType.Int32);
@@ -154,7 +168,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("FUNCTION_DB.", "UPDATE_PROFILE", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
         }
@@ -162,7 +176,9 @@ namespace MobileService45.Controllers
         [Route("UPDATE_TO_CSSVUNG")]
         public async Task<IHttpActionResult> UpdateToCssVung(string Mobile, string Password,string OTP, string SMAKH)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
+
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SMAKH", OracleDbType.Varchar2);
@@ -172,7 +188,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("FUNCTION_DB.", "UPDATE_TO_CSSVUNG", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
 
@@ -181,7 +197,9 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> UpdateTDDSLam(string Mobile, string Password,string OTP, int SIDDT)
         {
-            if (!await Datacs.IsValidMobile(Mobile, Password,OTP)) return Unauthorized();
+            var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
+            if (CheckMobile != "true") return Content(HttpStatusCode.BadRequest, CheckMobile);
+
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SIDDT", OracleDbType.Int32);
@@ -191,7 +209,7 @@ namespace MobileService45.Controllers
             var Result = Datacs.GetData("FUNCTION_DB.", "UPDATE_TTDSLAM", param);
             if (Result == null)
             {
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, "Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
             return Ok(Result);
 
