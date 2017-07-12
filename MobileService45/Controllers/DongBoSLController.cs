@@ -77,7 +77,7 @@ namespace MobileService45.Controllers
             var result = Datacs.GetData("DONGBOSL.", "GET_DSKH", param);
             if (result == null)
             {
-                return BadRequest();
+                return BadRequest("Không tìm thấy dữ liệu, xin xem lại thông tin");
             }
             return Ok(result);
         }
