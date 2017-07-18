@@ -42,6 +42,7 @@
 
         [StringLength(10)]
         public string MADV { get; set; }
+        
 
         public bool IsValidPassword(string Password  )
         {
@@ -50,14 +51,17 @@
         }
         public bool IsValidOTP(string OTP)
         {
-            if (this.OTP == OTP) return true;
+            //if (this.OTP == OTP||OTP=="0000") return true;
+            if (this.OTP == OTP ) return true;
             return false;
         }
-        public bool IsOTPLive()
+        public bool IsOTPLive(string OTP)
         {
+           // if (OTP == "0000") return true;
             var TimeOTPLive = TIME_OTP ?? DateTime.UtcNow;
             TimeOTPLive = TimeOTPLive.AddMinutes(Convert.ToInt32(ALIVE_OTP));
             if (TimeOTPLive < DateTime.UtcNow) return false;
+            this.TIME_OTP = DateTime.UtcNow;
             return true;
         }
 

@@ -88,199 +88,68 @@ namespace MobileService45.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("Không thực hiện được yêu cầu, vui lòng xem lại thông tin");
             }
         }
         private ServiceTestData2 ChangeRateToString(ServiceTestData2 data)
         {
             if (data.GponTestResults != null)
             {
-                var DicGpon = new Dictionary<string, int>();
-                DicGpon.Add("Kém", 5);
-                DicGpon.Add("Đạt", 4);
-                DicGpon.Add("Tốt", 3);
-                foreach(var d in DicGpon)
+                var DicGpon = new Dictionary<string, string>();
+                DicGpon.Add("5","Kém");
+                DicGpon.Add("4","Đạt");
+                DicGpon.Add("3","Tốt");
+                try
                 {
-                    if (data.GponTestResults[0].QualityAttenuationDown == d.Value.ToString())
-                    {
-                        data.GponTestResults[0].QualityAttenuationDown = d.Key;
-                    }
-                    if (data.GponTestResults[0].QualityAttenuationUp == d.Value.ToString())
-                    {
-                        data.GponTestResults[0].QualityAttenuationUp = d.Key;
-                    }
-                    if (data.GponTestResults[0].QualityBitDown == d.Value.ToString())
-                    {
-                        data.GponTestResults[0].QualityBitDown = d.Key;
-                    }
-                    if (data.GponTestResults[0].QualityBitUp == d.Value.ToString())
-                    {
-                        data.GponTestResults[0].QualityBitUp = d.Key;
-                    }
+                    data.GponTestResults[0].QualityAttenuationDown = DicGpon[data.GponTestResults[0].QualityAttenuationDown];
+                    data.GponTestResults[0].QualityAttenuationUp = DicGpon[data.GponTestResults[0].QualityAttenuationUp];
+                    data.GponTestResults[0].QualityBitDown = DicGpon[data.GponTestResults[0].QualityBitDown];
+                    data.GponTestResults[0].QualityBitUp = DicGpon[data.GponTestResults[0].QualityBitUp];
                 }
-
-                //var ChatLuongSuyHaoXuong = data.GponTestResults[0].QualityAttenuationDown;
-                //switch (ChatLuongSuyHaoXuong)
-                //{
-                //    case "5":
-                //        data.GponTestResults[0].QualityAttenuationDown = "Kém";
-                //        break;
-                //    case "4":
-                //        data.GponTestResults[0].QualityAttenuationDown = "Đạt";
-                //        break;
-                //    case "3":
-                //        data.GponTestResults[0].QualityAttenuationDown = "Tốt";
-                //        break;
-
-                //}
-                //var ChatLuongSuyHaoLen = data.GponTestResults[0].QualityAttenuationUp;
-                //switch (ChatLuongSuyHaoLen)
-                //{
-                //    case "5":
-                //        data.GponTestResults[0].QualityAttenuationUp = "Kém";
-                //        break;
-                //    case "4":
-                //        data.GponTestResults[0].QualityAttenuationUp = "Đạt";
-                //        break;
-                //    case "3":
-                //        data.GponTestResults[0].QualityAttenuationUp = "Tốt";
-                //        break;
-
-                //}
-                //var ChatLuongLoiBitXuog = data.GponTestResults[0].QualityBitDown;
-                //switch (ChatLuongSuyHaoLen)
-                //{
-                //    case "5":
-                //        data.GponTestResults[0].QualityBitDown = "Kém";
-                //        break;
-                //    case "4":
-                //        data.GponTestResults[0].QualityBitDown = "Đạt";
-                //        break;
-                //    case "3":
-                //        data.GponTestResults[0].QualityBitDown = "Tốt";
-                //        break;
-
-                //}
-                //var ChatLuongLoiBitLen = data.GponTestResults[0].QualityBitUp;
-                //switch (ChatLuongSuyHaoLen)
-                //{
-                //    case "5":
-                //        data.GponTestResults[0].QualityBitUp = "Kém";
-                //        break;
-                //    case "4":
-                //        data.GponTestResults[0].QualityBitUp = "Đạt";
-                //        break;
-                //    case "3":
-                //        data.GponTestResults[0].QualityBitUp = "Tốt";
-                //        break;
-
-                //}
+                catch(Exception ex)
+                {
+                    string debugmessage = ex.Message;
+                }
                 return data;
             }
             if (data.XdslTestResults != null)
             {
-                //var ChatLuongXuong = data.XdslTestResults[0].DownQuality;
-                //var ChatLuongLen = data.XdslTestResults[0].UpQuality;
-                var DicXdsl = new Dictionary<string, int>();
-                DicXdsl.Add("Kém", 5);
-                DicXdsl.Add("Đạt", 4);
-                DicXdsl.Add("Tốt", 3);
-                DicXdsl.Add("Rất tốt", 2);
-                DicXdsl.Add("Xuất sắc", 1);
-                foreach(var d in DicXdsl)
+                var DicXdsl = new Dictionary<string, string>();
+                DicXdsl.Add("5","Kém");
+                DicXdsl.Add("4","Đạt");
+                DicXdsl.Add("3","Tốt");
+                DicXdsl.Add("2","Rất tốt");
+                DicXdsl.Add("1","Xuất sắc");
+
+                try
                 {
-                    if (data.XdslTestResults[0].DownQuality == d.Value.ToString())
-                    {
-                        data.XdslTestResults[0].DownQuality = d.Key;
-                    }
-                    if (data.XdslTestResults[0].UpQuality == d.Value.ToString())
-                    {
-                        data.XdslTestResults[0].UpQuality = d.Key;
-                    }
+                    data.XdslTestResults[0].DownQuality = DicXdsl[data.XdslTestResults[0].DownQuality];
+                    data.XdslTestResults[0].UpQuality = DicXdsl[data.XdslTestResults[0].UpQuality];
+
                 }
-                //switch (ChatLuongXuong)
-                //{
-                //    case "5":
-                //        data.XdslTestResults[0].DownQuality = "Kém";
-                //        break;
-                //    case "4":
-                //        data.XdslTestResults[0].DownQuality = "Đạt";
-                //        break;
-                //    case "3":
-                //        data.XdslTestResults[0].DownQuality = "Tốt";
-                //        break;
-                //    case "2":
-                //        data.XdslTestResults[0].DownQuality = "Rất tốt";
-                //        break;
-                //    case "1":
-                //        data.XdslTestResults[0].DownQuality = "Xuất sắc";
-                //        break;
-                //}
-                //var ChatLuongLen = data.XdslTestResults[0].UpQuality;
-                //switch (ChatLuongLen)
-                //{
-                //    case "5":
-                //        data.XdslTestResults[0].UpQuality = "Kém";
-                //        break;
-                //    case "4":
-                //        data.XdslTestResults[0].UpQuality = "Đạt";
-                //        break;
-                //    case "3":
-                //        data.XdslTestResults[0].UpQuality = "Tốt";
-                //        break;
-                //    case "2":
-                //        data.XdslTestResults[0].UpQuality = "Rất tốt";
-                //        break;
-                //    case "1":
-                //        data.XdslTestResults[0].UpQuality = "Xuất sắc";
-                //        break;
-                //}
+                catch(Exception ex)
+                {
+                    string debug = ex.Message;
+                }
+             
                 return data;
             }
             if (data.Sl2TestResults != null)
             {
-                var DicSL2 = new Dictionary<string, int>();
-                DicSL2.Add("Tốt", 3);
-                DicSL2.Add("Đạt", 2);
-                DicSL2.Add("Kém", 1);
-                //var ChatLuongXuong = data.Sl2TestResults[0].DownRateQuality;
-                //var ChatLuongLen = data.Sl2TestResults[0].UpRateQuality;
-                foreach ( var dic in DicSL2)
+                var DicSL2 = new Dictionary<string, string>();
+                DicSL2.Add("3","Tốt");
+                DicSL2.Add("2","Đạt");
+                DicSL2.Add("1","Kém");
+                  try
                 {
-                    if(data.Sl2TestResults[0].DownRateQuality == dic.Value.ToString())
-                    {
-                        data.Sl2TestResults[0].DownRateQuality = dic.Key;
-                    }
-                    if (data.Sl2TestResults[0].UpRateQuality == dic.Value.ToString())
-                    {
-                        data.Sl2TestResults[0].UpRateQuality = dic.Key;
-                    }
+                    data.Sl2TestResults[0].DownRateQuality = DicSL2[data.Sl2TestResults[0].DownRateQuality];
+                    data.Sl2TestResults[0].UpRateQuality = DicSL2[data.Sl2TestResults[0].UpRateQuality];
                 }
-                //switch (ChatLuongXuong)
-                //{
-                //    case "3":
-                //        data.Sl2TestResults[0].DownRateQuality = "Tốt";
-                //        break;
-                //    case "2":
-                //        data.Sl2TestResults[0].DownRateQuality = "Đạt";
-                //        break;
-                //    case "1":
-                //        data.Sl2TestResults[0].DownRateQuality = "Kém";
-                //        break;
-                //}
+                catch(Exception ex)
+                {
+                    string debug = ex.Message;
+                }
                
-                //switch (ChatLuongLen)
-                //{
-                //    case "3":
-                //        data.Sl2TestResults[0].UpRateQuality = "Tốt";
-                //        break;
-                //    case "2":
-                //        data.Sl2TestResults[0].UpRateQuality = "Đạt";
-                //        break;
-                //    case "1":
-                //        data.Sl2TestResults[0].UpRateQuality = "Kém";
-                //        break;
-                //}
                 return data;
             }
 

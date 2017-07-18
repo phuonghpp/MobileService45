@@ -232,6 +232,7 @@
     <Compile Include="Models\DSUpLoad.cs" />
     <Compile Include="Models\LOG.cs" />
     <Compile Include="Models\OracleMobileDB.cs" />
+    <Compile Include="Models\SMSAgent.cs" />
     <Compile Include="Models\USER.cs" />
     <Compile Include="Models\USER_GROUP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -241,6 +242,11 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Service References\Mytv\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\SMSAgent\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -703,7 +709,19 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Web.config" />
+    <Content Include="Service References\SMSAgent\MobileService45.SMSAgent.SendMTResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\SMSAgent\SMSAgentWS.disco" />
+    <None Include="Service References\SMSAgent\configuration91.svcinfo" />
+    <None Include="Service References\SMSAgent\configuration.svcinfo" />
+    <None Include="Service References\SMSAgent\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -719,6 +737,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Service References\Mytv\SubscriberManagement.wsdl" />
+    <None Include="Service References\SMSAgent\SMSAgentWS.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -737,6 +756,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\AlineTest\" />
     <WCFMetadataStorage Include="Service References\Mytv\" />
+    <WCFMetadataStorage Include="Service References\SMSAgent\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -13,19 +13,20 @@ using System.Web.Configuration;
 
 namespace MobileService45.Controllers
 {
+    // this is test api, not for use!
     public class ValuesController : ApiController
     {
         OracleMobileDB db = new OracleMobileDB();
         // GET api/values
-        public async Task<IHttpActionResult> Get()
+        public async Task<IHttpActionResult> Get(string Mobile, string Content, string CountMe)
         {
             //var user = db.USERS.FirstOrDefault();
             //db.Dispose();
             //return user.FULLNAME;
-            var client = new HttpClient();
-            var response = await client.GetAsync("http://localhost:4555/GetAccountMyTVList/0000");
-            int i = 1;
-            return Ok(response.Content);
+            if (CountMe != "1234567") return BadRequest("Count again!");
+            var SMSSender = new SMSSender();
+            var sent =    await  SMSSender.Send(Content, Mobile);
+            return Ok(sent);
 
         }
 

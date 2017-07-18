@@ -21,38 +21,52 @@ namespace MobileService45.Controllers
         {
             var User =await Datacs.FindByMobile(Mobile);
             if (User == null) return BadRequest("Không tìm thấy tài khoản tương ứng với số điện thoại ");
-            if (User.PASSWORD != Password) return BadRequest("Mật khẩu không chính xác");
-            if (OTP == "0000") return Ok(User);
-            if (User.OTP != OTP) return BadRequest("OTP không đúng");
-            if (User.TIME_OTP >= DateTime.UtcNow.AddMinutes(30)) return BadRequest("OTP time out");
+            if (!User.IsValidPassword(Password)) return BadRequest("Mật khẩu không chính xác");
+            if (!User.IsValidOTP(OTP)) return BadRequest("OTP không chính xác");
+            if (!User.IsOTPLive(OTP)) return BadRequest("OTP hết hạn sử dụng");
 
             return Ok(User);
             
 
         }
+        [Route("BornToBeDeleted")]
+        [HttpGet]
+        public async Task<IHttpActionResult> TestObject(string Mobile)
+        {
+            var ToBeReturn = await FindByMobile(Mobile);
+            if(ToBeReturn is USER)
+            {
+                var returned = ToBeReturn as USER;
+                return Ok("this is user : + alive otp"+returned.ALIVE_OTP.ToString()+"thanks");
+            }
+            if (ToBeReturn is string)
+                return Ok(ToBeReturn as string);
+            return BadRequest();
+        }
+        private async Task<object> FindByMobile(string Mobile)
+        {
+            if (Mobile == "hello") return new USER();
+            return "Ok";
+        }
 
-
+        // Register chưa có kế hoạch sử dụng, cần chỉnh sửa lại sau
         [Route("Register")]
         [HttpPost]
-        private async Task<IHttpActionResult> Register([FromBody] RegisterViewModel model )
+        public async Task<IHttpActionResult> Register([FromBody] RegisterViewModel model )
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result =  CreateAccountAsyn(model.FullName, model.Mobile, model.Password);
-            if (result == false)
+            var result = await CreateAccountAsyn(model.FullName, model.Mobile, model.Password,model.CountMe);
+            if (result != "Success")
             {
-                if (Datacs.FindByMobile(model.Mobile)!=null)
-                {
-                    return BadRequest("Số điện thoại đã được đăng ký, vui lòng nhập số mới ");
-                }
-                return BadRequest("Đang có lỗi hệ thống chưa tạo mới được tài khoản, vui lòng thử lại sau");
+                return BadRequest(result);
             }
-
-            return Ok("Đã tạo tài khoản mới thành công! ");
+            return Ok("Đã tạo tài khoản : "+model.Mobile+" thành công! ");
 
         }
+        // demo Login for basic test from begin of project/ need to be removed soon!
         [HttpGet]
         [Route("Login")]
         public async Task<IHttpActionResult> Login(string Mobile,string Password )
@@ -79,6 +93,9 @@ namespace MobileService45.Controllers
             //string OTP = await User.NewOTPAsyn();
             return Ok(2);
         }
+
+        // cần fix lại login OTP và Register vì còn trùng đoạn code khá nhiều, nên đẩy sang models USER
+        // cần refactor để đạt SOLID
         [HttpGet]
         [Route("LoginGetOTP")]
         public async Task<IHttpActionResult> LoginOTP(string Mobile, string Password)
@@ -92,12 +109,12 @@ namespace MobileService45.Controllers
                 if (FindUser == null)
                 {
                     // Mobile number doen't exit
-                    return BadRequest("Mobile doen't exit");
+                    return BadRequest("Số điện thoại không đúng");
                 }
                 if (FindUser.PASSWORD != Password)
                 {
                     // user password is incorrect
-                    return BadRequest("Password is incorrect");
+                    return BadRequest("Mật khẩu không chính xác");
                 }
             }
             catch(Exception ex)
@@ -108,24 +125,31 @@ namespace MobileService45.Controllers
             string tempotp = "";
             using (var db = new OracleMobileDB())
             {
-                //var UserList = db.USERS.Where(x => x.ID == FindUser.ID).ToList<USER>();
-                //USER UserToUpdate = UserList.Single<USER>();
-                var random = Guid.NewGuid().ToString();
-                int i = 0;
-                foreach( char c in random)
-                {
-                    i = (c % 26)+65;
-                    tempotp += (char)i;
-                }
-                tempotp = tempotp.Substring(0, 10);
+                
+             //   var random = Guid.NewGuid().ToString();
+             //   int i = 0;
+
+                tempotp = new Random().Next(100000, 999999).ToString();
                 
                 FindUser.OTP = tempotp;
-                var user = db.USERS.Where(x => x.ID == FindUser.ID).Single<USER>();
-                db.USERS.Remove(user);
-                db.USERS.Add(FindUser);
-                db.SaveChanges();
+                try
+                {
+                    var user = db.USERS.Where(x => x.ID == FindUser.ID).FirstOrDefault<USER>();
+                    FindUser.OTP = tempotp;
+                    FindUser.TIME_OTP = DateTime.UtcNow.AddMinutes(1 - Convert.ToInt32(user.ALIVE_OTP));
+                    // vì OTP là key nên ko thay đổi được, phải drop rồi tạo mới
+                    db.USERS.Remove(user);
+                    db.USERS.Add(FindUser);
+                    db.SaveChanges();
+                }
+                catch(Exception ex)
+                {
+                    return InternalServerError(ex);
+                }
+                var SMSSender = new SMSSender();
+                var sent = await SMSSender.Send("OTP cho Đo Kiểm Mobile :"+tempotp, FindUser.MOBILE);
             }
-            return Ok(tempotp);
+            return Ok("Đã Sent OTP tới "+FindUser.MOBILE);
         }
         //private bool IsValidMobile(string _Mobile)
         //{
@@ -172,31 +196,45 @@ namespace MobileService45.Controllers
         //        return (null);
         //    }
         //}
-        private bool CreateAccountAsyn(string _FullName, string _Mobile, string _Password)
+
+
+        // cần refactor lại code, đẩy đoạn tạo mới user sang model User
+        private async Task<string> CreateAccountAsyn(string Fullname, string Mobile, string Password, string CountMe)
         {
-            OracleMobileDB db = new OracleMobileDB();
-            var User = new USER();
-            if (db.USERS.Where(x => x.MOBILE == _Mobile).Count() != 0) return (false);
-            if (db.USERS.Count() == 0)
+            if (CountMe != "1234567") return "Count again";
+            if (await Datacs.FindByMobile(Mobile) != null)
             {
-                User.ID = db.USERS.Count() + 1;
+                return "Số điện thoại đã có người sử dụng";
+            }
+            var User = new USER();
+            using (var db = new OracleMobileDB()) {
+                
+                int id;
+            if (db.USERS.Count() != 0)
+            {
+                id = db.USERS.Count() + 1;
             }
             else
             {
-                User.ID = 1;
+                id = 1;
             }
+            
             //cần encrypt password sau
-            User.MOBILE = _Mobile;
-            User.FULLNAME = _FullName;
-            User.PASSWORD = _Password;
+            User.ID = id;
+            User.MOBILE = Mobile;
+            User.FULLNAME = Fullname;
+            User.PASSWORD = Password;
+            User.MADV = "CNTT";
             User.CREATETIME = DateTime.UtcNow;
             User.TIME_OTP = DateTime.UtcNow;
-            string temp = Guid.NewGuid().ToString().ToUpper();
-            foreach (char c in temp)
-            {
-                if (c >= 'A' & c <= 'Z') User.OTP = c + User.OTP;
-            }
-            User.OTP = User.OTP.Substring(0, 10);
+            User.ALIVE_OTP = Convert.ToByte(30);
+                //string temp = Guid.NewGuid().ToString().ToUpper();
+                //foreach (char c in temp)
+                //{
+                //    if (c >= 'A' & c <= 'Z') User.OTP = c + User.OTP;
+                //}
+                //User.OTP = User.OTP.Substring(0, 4);
+            User.OTP = new Random().Next(100000, 999999).ToString();
             try
             {
                 db.USERS.Add(User);
@@ -204,9 +242,14 @@ namespace MobileService45.Controllers
             }
             catch (Exception ex)
             {
-                return (false);
+                var debugger = ex.Message;
+                return (ex.Message);
             }
-            return (true);
+                var SMSSender = new SMSSender();
+                var sent = await SMSSender.Send("Đã tạo mới tài khoản Mobile Đo Kiểm thành công .Số điện thoại : "+User.MOBILE+"Mật khẩu : "+User.PASSWORD+"OneTimePassword"+  User.OTP, User.MOBILE);
+            }
+           
+            return ("Success");
 
 
         }

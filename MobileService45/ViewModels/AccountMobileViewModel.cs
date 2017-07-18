@@ -25,6 +25,8 @@ namespace MobileService45.ViewModels
         [Required]
         [StringLength(20, ErrorMessage = "Password cần 8-20 ký tự", MinimumLength = 8)]
         public string Password { get; set; }
+        [Required]
+        public string CountMe { get; set; }
     }
     public class LoginViewModel
     {

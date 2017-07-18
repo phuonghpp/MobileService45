@@ -45,8 +45,8 @@ namespace MobileService45.DAL
                 USER User;
                 try
                 {
-                   var UserList =await  (context.USERS.Where<USER>(x=>x.MOBILE==mobile).ToListAsync());
-                    User = UserList.Single<USER>();
+                    var UserList = from o in context.USERS where o.MOBILE == mobile select o;
+                    User = UserList.FirstOrDefault<USER>();
                     User.TIME_OTP = DateTime.UtcNow;
                     context.SaveChanges();
                     int i = 1;
@@ -150,21 +150,16 @@ namespace MobileService45.DAL
                     //var UserList =  context.USERS.Where<USER>(x => x.MOBILE == Mobile).ToList();
                     // User = UserList.Single<USER>();
                     var UserList = from o in context.USERS where o.MOBILE == Mobile select o;
-                    User = UserList.Single<USER>();
-                    User.TIME_OTP = DateTime.UtcNow;
-                    //context.SaveChanges();
-                    int i = 1;
-
+                    User = UserList.FirstOrDefault<USER>(); 
                 }
                 catch (Exception ex)
                 {
-                    int i = 1;
+                    //int i = 1;
                     return "Số điện thoại không đúng";
                 }
                 if (!User.IsValidPassword(Password)) return "Mật khẩu không chính xác";
-                if (OTP == "0000") return "true";
                 if (!User.IsValidOTP(OTP)) return "OTP không chính xác";
-                if (!User.IsOTPLive()) return "OTP hết hạn sử dụng";
+                if (!User.IsOTPLive(OTP)) return "OTP hết hạn sử dụng";
 
                 return "true";
 
