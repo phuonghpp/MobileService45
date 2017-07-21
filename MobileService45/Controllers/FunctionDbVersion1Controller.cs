@@ -7,6 +7,7 @@ using System.Web.Http;
 using MobileService45.DAL;
 using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
+using MobileService45.Models;
 
 
 namespace MobileService45.Controllers
@@ -19,7 +20,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> BDSTB(string Mobile, string Password,string OTP    , int NO)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return  BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("NO", OracleDbType.Int32);
@@ -39,7 +40,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> GetDMDSLAM(string Mobile, string Password,string OTP, string SSYSNAME)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SSYSNAME", OracleDbType.Varchar2);
@@ -58,7 +59,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> InsertHuyDv(string Mobile, string Password,string OTP, string SACC)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
 
             List<OracleParameter> param = new List<OracleParameter>();
@@ -78,7 +79,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> InsertHuyPort(string Mobile, string Password,string OTP, string SACC)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
 
             List<OracleParameter> param = new List<OracleParameter>();
@@ -98,7 +99,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> UpdateCSSVung(string Mobile, string Password,string OTP, string MADK)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
 
             List<OracleParameter> param = new List<OracleParameter>();
@@ -118,7 +119,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> UpdateDmDslam(string Mobile, string Password,string OTP, int SIDDSLAM, string SIP, int SVLAN_HSI, int SVLAN_MYTV, int SVLAN_LSTV, string SUSER, string SPASS)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
 
             List<OracleParameter> param = new List<OracleParameter>();
@@ -157,7 +158,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> UpdateProfile(string Mobile, string Password,string OTP, int SIDDT)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
 
             List<OracleParameter> param = new List<OracleParameter>();
@@ -177,7 +178,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> UpdateToCssVung(string Mobile, string Password,string OTP, string SMAKH)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
 
             List<OracleParameter> param = new List<OracleParameter>();
@@ -198,7 +199,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> UpdateTDDSLam(string Mobile, string Password,string OTP, int SIDDT)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
 
             List<OracleParameter> param = new List<OracleParameter>();

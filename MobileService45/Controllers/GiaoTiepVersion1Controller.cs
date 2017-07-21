@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
 using MobileService45.DAL;
+using MobileService45.Models;
 
 
 namespace MobileService45.Controllers
@@ -19,7 +20,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> LoadKHBD(string Mobile, string Password,string OTP, string SMADV, string SACC)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return  BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SMADV", OracleDbType.Varchar2);
@@ -47,7 +48,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> LoadMucProfile(string Mobile, string Password,string OTP, string SPROFILE, string SIDTB)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return  BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
 
             List<OracleParameter> param = new List<OracleParameter>();
@@ -71,7 +72,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> XNBDCapDong(string Mobile, string Password,string OTP, int SLBD, int SIDTB, string SIDDT, string SPROFILE)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SLBD", OracleDbType.Int32);

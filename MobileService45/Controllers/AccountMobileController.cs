@@ -19,35 +19,13 @@ namespace MobileService45.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> CheckAccountInformation(string Mobile,string Password,string OTP)
         {
-            var User =await Datacs.FindByMobile(Mobile);
-            if (User == null) return BadRequest("Không tìm thấy tài khoản tương ứng với số điện thoại ");
-            if (!User.IsValidPassword(Password)) return BadRequest("Mật khẩu không chính xác");
-            if (!User.IsValidOTP(OTP)) return BadRequest("OTP không chính xác");
-            if (!User.IsOTPLive(OTP)) return BadRequest("OTP hết hạn sử dụng");
-
-            return Ok(User);
+            var CheckUser =await Datacs.IsValidMobile(Mobile,Password,OTP);
+            if (!(CheckUser is USER)) return BadRequest(CheckUser as string);
+            return Ok(CheckUser);
             
 
         }
-        [Route("BornToBeDeleted")]
-        [HttpGet]
-        public async Task<IHttpActionResult> TestObject(string Mobile)
-        {
-            var ToBeReturn = await FindByMobile(Mobile);
-            if(ToBeReturn is USER)
-            {
-                var returned = ToBeReturn as USER;
-                return Ok("this is user : + alive otp"+returned.ALIVE_OTP.ToString()+"thanks");
-            }
-            if (ToBeReturn is string)
-                return Ok(ToBeReturn as string);
-            return BadRequest();
-        }
-        private async Task<object> FindByMobile(string Mobile)
-        {
-            if (Mobile == "hello") return new USER();
-            return "Ok";
-        }
+       
 
         // Register chưa có kế hoạch sử dụng, cần chỉnh sửa lại sau
         [Route("Register")]

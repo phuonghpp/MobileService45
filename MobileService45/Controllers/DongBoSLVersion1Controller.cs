@@ -7,6 +7,7 @@ using System.Web.Http;
 using MobileService45.DAL;
 using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
+using MobileService45.Models;
 
 
 namespace MobileService45.Controllers
@@ -19,7 +20,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> AddDelPass(string Mobile, string Password,string OTP, string P_NhanVien, string P_Account, Int64 P_Slot, Int64 P_Port, Int64 P_Vpi)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("P_NHANVIEN", OracleDbType.Varchar2);
             p1.Value = P_NhanVien;
@@ -49,7 +50,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> GetDichVuByAccount(string Mobile, string Password,string OTP, string Account)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("P_ACCOUNT", OracleDbType.Varchar2);
             p1.Value = Account;
@@ -66,7 +67,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> GetDSKH(string Mobile, string Password,string OTP, string Smadv, string skey)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SMADV", OracleDbType.Varchar2);
             OracleParameter p2 = new OracleParameter("SKEY", OracleDbType.Varchar2);
@@ -86,7 +87,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> GetLogByAccount(string Mobile, string Password,string OTP, string P_Account)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("P_ACCOUNT", OracleDbType.Varchar2);
             p1.Value = P_Account;
@@ -103,7 +104,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> ListTBDCKH(string Mobile, string Password,string OTP)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SDEVICE", OracleDbType.Varchar2);
             p1.Value = "1";
@@ -120,7 +121,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> ListTBYCUpload(string Mobile, string Password,string OTP, string MA_TTOAN, string ID_PORT)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SMATT", OracleDbType.Varchar2);
             OracleParameter p2 = new OracleParameter("STT_DSLAM", OracleDbType.Varchar2);
@@ -141,8 +142,8 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> ListYCXNUpload(string Mobile, string Password,string OTP)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
-            var user =await Datacs.FindByMobile(Mobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
+            var user = CheckMobile as USER;
 
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("SMADV", OracleDbType.Varchar2);
@@ -160,7 +161,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> XNUpload(string Mobile, string Password,string OTP, string Lsacc, string Lsp_Onu, string Smatt, string Spass_Onu, string Sonu_Id, string SNV, string Stb_Dcoui)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
 
             List<OracleParameter> param = new List<OracleParameter>();
 

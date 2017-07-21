@@ -61,7 +61,7 @@
             var TimeOTPLive = TIME_OTP ?? DateTime.UtcNow;
             TimeOTPLive = TimeOTPLive.AddMinutes(Convert.ToInt32(ALIVE_OTP));
             if (TimeOTPLive < DateTime.UtcNow) return false;
-            this.TIME_OTP = DateTime.UtcNow;
+            TIME_OTP = DateTime.UtcNow;
             return true;
         }
 

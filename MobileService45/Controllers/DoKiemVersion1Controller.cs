@@ -10,6 +10,7 @@ using MobileService45.DAL;
 using MobileService45.AlineTest;
 using System.Web.Configuration;
 using MobileService45.ViewModels;
+using MobileService45.Models;
 
 namespace MobileService45.Controllers
 {
@@ -21,7 +22,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> GetDmDSLAM( string Mobile,string Password,string OTP,string sMADV)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("sMADV", OracleDbType.Varchar2);
             p1.Value = sMADV;
@@ -38,7 +39,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> GetPortDslam(string Mobile,string Password,string OTP,string sIDDSLAM)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("sIDDSLAM", OracleDbType.Varchar2);
             p1.Value = sIDDSLAM;
@@ -55,7 +56,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> CheckAccountAndPort(string Mobile,string Password, string OTP,string Account)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             try
             {
                 ServicesSoapClient Client = new ServicesSoapClient("ServicesSoap");

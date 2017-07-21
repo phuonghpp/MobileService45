@@ -7,6 +7,7 @@ using System.Web.Http;
 using MobileService45.DAL;
 using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
+using MobileService45.Models;
 
 namespace MobileService45.Controllers
 {
@@ -18,7 +19,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> GetDSDelPass(string Mobile, string Password,string OTP , int P_Count)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("P_COUNT", OracleDbType.Int32);
             p1.Value = P_Count;
@@ -35,7 +36,7 @@ namespace MobileService45.Controllers
         public async Task<IHttpActionResult> UpdateDelPass(string Mobile, string Password,string OTP, int P_ID, string P_Account, int P_Status, string P_Descript)
         {
             var CheckMobile = await Datacs.IsValidMobile(Mobile, Password, OTP);
-            if (CheckMobile != "true") return BadRequest(CheckMobile);
+            if (!(CheckMobile is USER)) return BadRequest(CheckMobile as string);
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter p1 = new OracleParameter("P_ID", OracleDbType.Int32);
             OracleParameter p2 = new OracleParameter("P_ACCOUNT", OracleDbType.Varchar2);

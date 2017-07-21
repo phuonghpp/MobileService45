@@ -18,7 +18,7 @@ namespace MobileService45.Controllers
         [Route("DSUpLoad")]
         public async Task<IHttpActionResult> GetDsUpLoad(string Mobile,string Password,string OTP)
         {
-            if (!Datacs.BasicIsValidMobile(Mobile, Password, OTP)) return Unauthorized();
+            if (await Datacs.IsValidMobile(Mobile, Password, OTP)!= "true") return Unauthorized();
             List<OracleParameter> param = new List<OracleParameter>();
             OracleParameter SMADV = new OracleParameter("CNTT", OracleDbType.Varchar2);
             SMADV.Value = "CNTT";

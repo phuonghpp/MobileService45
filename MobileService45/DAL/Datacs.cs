@@ -83,7 +83,7 @@ namespace MobileService45.DAL
             return true;
 
         }
-        public static bool BasicIsValidMobile(string Mobile,string Password,string OTP)
+        protected static bool BasicIsValidMobile(string Mobile,string Password,string OTP)
         {
             OracleConnection oConn = default(OracleConnection);
             oConn = new OracleConnection(strSql);
@@ -137,13 +137,13 @@ namespace MobileService45.DAL
                 return false;
             }
         }
-        public static async Task<string> IsValidMobile(string Mobile,string Password,string OTP)
+        public static async Task<Object> IsValidMobile(string Mobile,string Password,string OTP)
         {
 
             using (var context = new OracleMobileDB())
             {
                 // ensure that the initialization still only happens once per AppDomain 
-                context.Database.Initialize(force: false);
+                //context.Database.Initialize(force: false);
                 USER User;
                 try
                 {
@@ -160,8 +160,8 @@ namespace MobileService45.DAL
                 if (!User.IsValidPassword(Password)) return "Mật khẩu không chính xác";
                 if (!User.IsValidOTP(OTP)) return "OTP không chính xác";
                 if (!User.IsOTPLive(OTP)) return "OTP hết hạn sử dụng";
-
-                return "true";
+                context.SaveChanges();
+                return User;
 
             }
             //USER   User = await FindByMobile(Mobile);
